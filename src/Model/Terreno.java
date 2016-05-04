@@ -3,15 +3,16 @@ package Model;
 public class Terreno extends Dibujable {
     private int tipo;
     private boolean activo;
-    /*0-> terreno neutral(AyB)
-     *1-> terreno p1 (A)
-     *2-> terreno p2 (B)
-     *3-> terreno accion simple
-     *4-> terreno accion duo
-     *5-> terreno trigger de A
-     *6-> terreno final usado como meta 
-     *7-> terreno trigger de B
-    */
+    
+    public static final int TERRENO_NEUTRAL = 0;
+    public static final int TERRENO_P1 = 1;
+    public static final int TERRENO_P2 = 2;
+    public static final int TERRENO_ACCION = 3;
+    public static final int TERRENO_DUO = 4;
+    public static final int TERRENO_TRIGGER_P1 = 5;
+    public static final int TERRENO_META = 6;
+    public static final int TERRENO_TRIGGER_P2 = 7;
+
     public Terreno(char elementoGrafico, int alto, int ancho, int tipo){
         super(elementoGrafico, alto, ancho);
         this.activo = true;

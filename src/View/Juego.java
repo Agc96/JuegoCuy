@@ -85,6 +85,8 @@ public class Juego {
             ventana.pnlTexto.getGraphics().clearRect(0, 0, ventana.pnlTexto.getWidth(), ventana.pnlTexto.getHeight());
             ejecutarAccionEspecial(tipo);
             eventFlag = CAPTURAR_MOVIMIENTO;
+            p1.actualizarEstado(gestorMapa.getMapa(nivel));;
+            p2.actualizarEstado(gestorMapa.getMapa(nivel));;   
         }
         return tipo;
     }
@@ -99,11 +101,7 @@ public class Juego {
                     Thread.sleep(750);
                 }
                 //ACTIVAR TERRENOS
-                List listaTerrenoInactivos = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
-                for (int i = 0; i < listaTerrenoInactivos.size(); i++) {
-                    Terreno terreno = (Terreno) listaTerrenoInactivos.get(i);
-                    terreno.setActivo(true);
-                }
+                //IMPLEMENTAR
             } else if (player == 2) {
                 //NOTHING
             } else if (player == 3) {
@@ -148,11 +146,7 @@ public class Juego {
                 this.renderizar();
                 Thread.sleep(750);
                 //ACTIVAR TERRENOS
-                List listaDuo = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
-                for (int i = 0; i < listaDuo.size(); ++i) {
-                    Terreno terreno = (Terreno) listaDuo.get(i);
-                    terreno.setActivo(true);
-                }
+                //IMPLEMENTAR
             } else if (player == 2) {
                 //RECORRE TERRITORIO
                 int xOrig = p2.getPosX();
@@ -184,11 +178,7 @@ public class Juego {
                     Thread.sleep(750);
                 }
                 //ACTIVAR TERRENOS
-                List listaTerrenoInactivos = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
-                for (int i = 0; i < listaTerrenoInactivos.size(); i++) {
-                    Terreno terreno = (Terreno) listaTerrenoInactivos.get(i);
-                    terreno.setActivo(true);
-                }
+                //IMPLEMENTAR
             } else if (player == 2) {
                 //NOTHING
             } else if (player == 3) {
@@ -306,8 +296,7 @@ public class Juego {
                 renderizar();
                 nivel += 1;
                 inicio_Nivel = true;
-                //System.out.print(". Presiona ENTER para continuar...");
-                //COLOCAR TIMER O UN CAPTURADOR DE KEY
+                Thread.sleep(1000);
                 if (nivel < gestorMapa.getNumNiveles()){
                     inicializarPersonajes(nivel);
                     restaurarActividad(nivel);
@@ -328,12 +317,8 @@ public class Juego {
                 e.setElementoGrafico('E');
                 //DISMINUIR LA VIDA DEL JUGADOR 1
                 //this.p1.setVida(this.p1.getVida() - 1);
-                //Activar el terreno de accion
-                List l = this.gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
-                for (int i = 0; i < l.size(); i++) {
-                    Terreno t = (Terreno) (l.get(i));
-                    t.setActivo(true);
-                }
+                //ACTIVAR TERRENOS
+                //IMPLEMENTAR
             }
         }
         
@@ -411,9 +396,7 @@ public class Juego {
             e.printStackTrace();
         }
     }   
-
-    
-
+   
     private void cargar_Actividad_XML(int nivel) {
         Mapa mapa = gestorMapa.getMapa(nivel);        
         try {
@@ -434,7 +417,6 @@ public class Juego {
                 int col = Integer.parseInt(columnas.item(i).getTextContent());
                 Terreno terreno = ((Terreno) mapa.getMapaAt(fila, col).getObj());
                 terreno.setActivo(false);
-                mapa.getListaTerrenoInactivo().add(terreno);
             }
         } catch (Exception e) {
             //e.printStackTrace();
@@ -493,52 +475,51 @@ public class Juego {
             doc.getDocumentElement().normalize();
             NodeList nList = doc.getElementsByTagName("Nivel");
             ////
-            if (true){
-                Node nNode = nList.item(nivel);
-                Element eElement = (Element) nNode;
-                //ACCION ESPECIAL PLAYER1
-                NodeList listAcEsp =  eElement.getElementsByTagName("accionEspecial");
-                Element acEsp1 = (Element) listAcEsp.item(0);
-                NodeList posX = acEsp1.getElementsByTagName("posX");
-                NodeList posY = acEsp1.getElementsByTagName("posY");
-                for (int i = 0; i < posX.getLength(); i++){
-                    int x = Integer.parseInt(posX.item(i).getTextContent());
-                    int y = Integer.parseInt(posY.item(i).getTextContent());
-                    Graphics g = ventana.pnlGrafico.getGraphics();
-                    g.drawImage(imagenes[i], x*64, y*64, null);
-                }
-                Element acEsp2 = (Element) listAcEsp.item(1);
-                posX = acEsp2.getElementsByTagName("posX");
-                posY = acEsp2.getElementsByTagName("posY");
-                for (int i = 0; i < posX.getLength(); i++){
-                    int x = Integer.parseInt(posX.item(i).getTextContent());
-                    int y = Integer.parseInt(posY.item(i).getTextContent());
-                    Graphics g = ventana.pnlGrafico.getGraphics();
-                    g.drawImage(imagenes[i], x*64, y*64, null);
-                }
-                //ACCION DUO PLAYER1
-                NodeList listAcDuo =  eElement.getElementsByTagName("accionDuo");
-                Element acDuo1 = (Element) listAcDuo.item(0);
-                posX = acDuo1.getElementsByTagName("posX");
-                posY = acDuo1.getElementsByTagName("posY");
-                for (int i = 0; i < posX.getLength(); i++){
-                    int x = Integer.parseInt(posX.item(i).getTextContent());
-                    int y = Integer.parseInt(posY.item(i).getTextContent());
-                    Graphics g = ventana.pnlGrafico.getGraphics();
-                    g.drawImage(imagenes[i], x*64, y*64, null);
-                }
-                //ACCION DUO PLAYER2
-                Element acDuo2 = (Element) listAcDuo.item(1);
-                posX = acDuo2.getElementsByTagName("posX");
-                posY = acDuo2.getElementsByTagName("posY");
-                for (int i = 0; i < posX.getLength(); i++){
-                    int x = Integer.parseInt(posX.item(i).getTextContent());
-                    int y = Integer.parseInt(posY.item(i).getTextContent());
-                    Graphics g = ventana.pnlGrafico.getGraphics();
-                    g.drawImage(imagenes[i], x*64, y*64, null);
-                }
-            }
             
+            Node nNode = nList.item(nivel);
+            Element eElement = (Element) nNode;
+            //ACCION ESPECIAL PLAYER1
+            NodeList listAcEsp =  eElement.getElementsByTagName("accionEspecial");
+            Element acEsp1 = (Element) listAcEsp.item(0);
+            NodeList posX = acEsp1.getElementsByTagName("posX");
+            NodeList posY = acEsp1.getElementsByTagName("posY");
+            for (int i = 0; i < posX.getLength(); i++){
+                int x = Integer.parseInt(posX.item(i).getTextContent());
+                int y = Integer.parseInt(posY.item(i).getTextContent());
+                Graphics g = ventana.pnlGrafico.getGraphics();
+                g.drawImage(imagenes[i], x*64, y*64, null);
+            }
+            Element acEsp2 = (Element) listAcEsp.item(1);
+            posX = acEsp2.getElementsByTagName("posX");
+            posY = acEsp2.getElementsByTagName("posY");
+            for (int i = 0; i < posX.getLength(); i++){
+                int x = Integer.parseInt(posX.item(i).getTextContent());
+                int y = Integer.parseInt(posY.item(i).getTextContent());
+                Graphics g = ventana.pnlGrafico.getGraphics();
+                g.drawImage(imagenes[i], x*64, y*64, null);
+            }
+            //ACCION DUO PLAYER1
+            NodeList listAcDuo =  eElement.getElementsByTagName("accionDuo");
+            Element acDuo1 = (Element) listAcDuo.item(0);
+            posX = acDuo1.getElementsByTagName("posX");
+            posY = acDuo1.getElementsByTagName("posY");
+            for (int i = 0; i < posX.getLength(); i++){
+                int x = Integer.parseInt(posX.item(i).getTextContent());
+                int y = Integer.parseInt(posY.item(i).getTextContent());
+                Graphics g = ventana.pnlGrafico.getGraphics();
+                g.drawImage(imagenes[i], x*64, y*64, null);
+            }
+            //ACCION DUO PLAYER2
+            Element acDuo2 = (Element) listAcDuo.item(1);
+            posX = acDuo2.getElementsByTagName("posX");
+            posY = acDuo2.getElementsByTagName("posY");
+            for (int i = 0; i < posX.getLength(); i++){
+                int x = Integer.parseInt(posX.item(i).getTextContent());
+                int y = Integer.parseInt(posY.item(i).getTextContent());
+                Graphics g = ventana.pnlGrafico.getGraphics();
+                g.drawImage(imagenes[i], x*64, y*64, null);
+            }
+
         } catch (Exception e) {
             //e.printStackTrace();
         }

@@ -13,7 +13,7 @@ public class Mapa {
     private Celda[][] mapa;
     public static int NUM_FILAS = 12;
     public static int NUM_COLUMNAS = 16;
-    List listaTerrenoInactivo;
+    
     
     public Mapa(String ruta) {
         try {
@@ -26,7 +26,7 @@ public class Mapa {
                     this.mapa[fila][col] = new Celda(aux[col], col, fila);
                 fila++;
             }
-            listaTerrenoInactivo = new ArrayList();
+            
         } catch (FileNotFoundException ex) {
             System.err.println("ERROR: No se encontro el archivo " + ruta);
             System.exit(1);
@@ -46,9 +46,4 @@ public class Mapa {
         if (columna < 0 || columna >= NUM_COLUMNAS) return null;
         return mapa[fila][columna];
     }
-
-    public List getListaTerrenoInactivo() {
-        return this.listaTerrenoInactivo;
-    }
-
 }

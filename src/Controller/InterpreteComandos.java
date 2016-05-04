@@ -16,8 +16,9 @@ public class InterpreteComandos {
         /*3-> EXITO TOTAL, ACCION DUO*/
         /*4-> EXITO PARCIAL*/
 
-        if (p1.getAccionEspecial(nivel).length() > 0 &&
-                index < p1.getAccionEspecial(nivel).length() &&
+        if (p1.getEstado() == Personaje.ACCION_ESPECIAL &&
+            p1.getAccionEspecial(nivel).length() > 0 &&
+            index < p1.getAccionEspecial(nivel).length() &&
             p1.getAccionEspecial(nivel).charAt(index) == key){
             /*PARA P1*/
             if (p1.getAccionEspecial(nivel).length() == (index + 1) ){
@@ -28,8 +29,9 @@ public class InterpreteComandos {
             }
             return 4;
         } 
-        else if (p2.getAccionEspecial(nivel).length() > 0 &&
-                index < p2.getAccionEspecial(nivel).length() &&
+        else if (p2.getEstado() == Personaje.ACCION_ESPECIAL &&
+                 p2.getAccionEspecial(nivel).length() > 0 &&
+                 index < p2.getAccionEspecial(nivel).length() &&
                  p2.getAccionEspecial(nivel).charAt(index) == key){
             /*PARA P2*/
             if (p2.getAccionEspecial(nivel).length() == (index + 1) ){
@@ -40,8 +42,10 @@ public class InterpreteComandos {
             }
             return 4;
         }
-        else if (p2.getAccionDuo(nivel).length() > 0 &&
-                index < p2.getAccionDuo(nivel).length() &&
+        else if (p1.getEstado() == Personaje.ACCION_DUO &&
+                 p2.getEstado() == Personaje.ACCION_DUO && 
+                 p2.getAccionDuo(nivel).length() > 0 &&
+                 index < p2.getAccionDuo(nivel).length() &&
                  p2.getAccionDuo(nivel).charAt(index) == key) {
             /*Para p1 y  p2*/
             //DESACTIVA TERRENO DUO
@@ -66,7 +70,6 @@ public class InterpreteComandos {
         int personaje = 0;
         
         char c = Character.toUpperCase(key);
-        //System.out.println("Caracter presionado: " + c);
         if (c == 'W'){
             difY = -1; personaje = 1;
         } else if (c == 'A'){
@@ -77,14 +80,8 @@ public class InterpreteComandos {
             difX = 1;   personaje = 1;
         }
         if (personaje == 1){
-            Celda celda1 = mapa.getMapaAt(p1.getPosY(), p1.getPosX());
             //PARA QUE NO SE MUEVA CUANDO ESTA EN UN TRIGGER ACTIVO
-            if (celda1.getObj() instanceof Terreno){
-                Terreno ter = (Terreno) celda1.getObj();
-                if (ter.getActivo() && ter.getTipo()==5){
-                return;
-                }
-            }
+            if (p1.getEstado() == Personaje.TRIGGER_ENEMIGO) return;
             //MOVER AL PERSONAJE
             int xFinal = p1.getPosX() + difX;
             int yFinal = p1.getPosY() + difY;
@@ -95,6 +92,7 @@ public class InterpreteComandos {
                     int t = terreno.getTipo();
                     if (t != 2 && t >= 0 && t < 8){
                         p1.Mover(xFinal, yFinal);
+                        p1.actualizarEstado(mapa);
                     }
                     return;
                 }
@@ -112,14 +110,8 @@ public class InterpreteComandos {
             difX = 1;   personaje = 2;
         }
         if (personaje == 2){
-            Celda celda2 = mapa.getMapaAt(p2.getPosY(), p2.getPosX());
             //PARA QUE NO SE MUEVA CUANDO ESTA EN UN TRIGGER ACTIVO
-            if (celda2.getObj() instanceof Terreno){
-                Terreno ter = (Terreno) celda2.getObj();
-                if (ter.getActivo() && ter.getTipo()==5){
-                    return;
-                }
-            }
+            if (p2.getEstado() == Personaje.TRIGGER_ENEMIGO) return;
             //MOVER AL PERSONAJE
             int xFinal = p2.getPosX() + difX;
             int yFinal = p2.getPosY() + difY;
@@ -130,6 +122,7 @@ public class InterpreteComandos {
                     int t = terreno.getTipo();
                     if (t != 1 && t >= 0 && t < 8){
                         p2.Mover(xFinal, yFinal);
+                        p2.actualizarEstado(mapa);
                     }
                     return;
                 } 
