@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class InterpreteComandos {
         
-    public int interpretaAccionEspecial(char key, int index,Mapa mapa, Personaje p1, Personaje p2, int nivel){
+    public int interpretaAccionEspecial(char key, int index, Mapa mapa, Personaje p1, Personaje p2, int nivel){
         key = Character.toUpperCase(key);
         /*0-> SE FALLÓ*/
         /*1-> EXITO TOTAL, ACCION P1*/
@@ -18,7 +18,7 @@ public class InterpreteComandos {
 
         if (p1.getAccionEspecial(nivel).length() > 0 &&
                 index < p1.getAccionEspecial(nivel).length() &&
-                p1.getAccionEspecial(nivel).charAt(index) == key){
+            p1.getAccionEspecial(nivel).charAt(index) == key){
             /*PARA P1*/
             if (p1.getAccionEspecial(nivel).length() == (index + 1) ){
                 Celda celda = mapa.getMapaAt( p1.getPosY(),p1.getPosX());
@@ -28,6 +28,7 @@ public class InterpreteComandos {
             return 4;
         } 
         else if (p2.getAccionEspecial(nivel).length() > 0 &&
+                index < p2.getAccionEspecial(nivel).length() &&
                  p2.getAccionEspecial(nivel).charAt(index) == key){
             /*PARA P2*/
             if (p2.getAccionEspecial(nivel).length() == (index + 1) ){
@@ -38,10 +39,11 @@ public class InterpreteComandos {
             return 4;
         }
         else if (p2.getAccionDuo(nivel).length() > 0 &&
+                index < p2.getAccionDuo(nivel).length() &&
                  p2.getAccionDuo(nivel).charAt(index) == key) {
             /*Para p1 y  p2*/
             //DESACTIVA TERRENO DUO
-            if (p2.getAccionEspecial(nivel).length() == (index + 1) ){
+            if (p2.getAccionDuo(nivel).length() == (index + 1) ){
                 Celda celda1 = mapa.getMapaAt( p1.getPosY(),p1.getPosX());
                 Celda celda2 = mapa.getMapaAt( p2.getPosY(),p2.getPosX());
                 ((Terreno) celda1.getObj()).setActivo(false);

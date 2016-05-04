@@ -131,7 +131,6 @@ public class Ventana extends JFrame implements KeyListener{
         } catch (IOException | InterruptedException ex){
                 System.out.println("Error en actualizar info");
         }   
-        System.out.println("Key: " + keyChar + " Index: " + index);
     }
 
     @Override

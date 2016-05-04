@@ -87,7 +87,7 @@ public class Juego {
                 for (int i = 0; i < 3; i++) {
                     p1.setPosX(p1.getPosX() + 1);
                     this.renderizar();
-                    //DELAY
+                    Thread.sleep(750);
                 }
                 //ACTIVAR TERRENOS
                 List listaTerrenoInactivos = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
@@ -101,12 +101,12 @@ public class Juego {
                 p1.setPosY(p1.getPosY() + 1);
                 p2.setPosY(p2.getPosY() - 1);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 for (int i = 0; i < 2; i++) {
                     p1.setPosX(p1.getPosX() + 1);
                     p2.setPosX(p2.getPosX() + 1);
                     this.renderizar();
-                    //DELAY
+                    Thread.sleep(750);
                 }
             }
         } else if (nivel == 1) {
@@ -116,18 +116,18 @@ public class Juego {
                 for (int i = 0; i < 2; i++) {
                     p1.setPosY(p1.getPosY() + 1);
                     this.renderizar();
-                    //DELAY
+                    Thread.sleep(750);
                 }
                 p1.setPosY(yOrig + 4);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 //AQUI DESTRUYE ESAS COSAS
                 Celda celda1 = gestorMapa.getMapa(nivel).getMapaAt(yOrig + 4, xOrig);
                 Celda celda2 = gestorMapa.getMapa(nivel).getMapaAt(yOrig + 5, xOrig);
                 celda1.setObj(new Terreno('N', 2));
                 celda2.setObj(new Terreno('N', 2));
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 //VUELVE AL ORIGINAL
                 p1.setPosX(xOrig);
                 p1.setPosY(yOrig);
@@ -143,14 +143,14 @@ public class Juego {
                 int yOrig = p2.getPosY();
                 p2.setPosX(xOrig - 1);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 /////
                 p2.setPosX(xOrig - 2);
                 //DESTRUYE LA ARENA
                 Celda celda = gestorMapa.getMapa(nivel).getMapaAt(yOrig, xOrig - 1);
                 celda.setObj(new Terreno('N', 2));
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
             } else if (player == 3) {
                 //NOTHING
             }
@@ -159,7 +159,7 @@ public class Juego {
                 for (int i = 0; i < 3; i++) {
                     p1.setPosX(p1.getPosX() + 1);
                     this.renderizar();
-                    //DELAY
+                    Thread.sleep(750);
                 }
                 //ACTIVAR TERRENOS
                 List listaTerrenoInactivos = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
@@ -173,16 +173,16 @@ public class Juego {
                 p1.setPosX(p1.getPosX() + 1);
                 p2.setPosX(p2.getPosX() + 1);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 p1.setPosX(p1.getPosX() + 3);
                 p1.setPosY(p1.getPosY() - 1);
                 p2.setPosX(p2.getPosX() + 3);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 p1.setPosY(p1.getPosY() + 1);
                 p2.setPosY(p2.getPosY() - 1);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
             }
         } else if (nivel == 3) {//NIVEL CON ENEMIGO
             if (player == 1) {
@@ -195,15 +195,15 @@ public class Juego {
                 p2.setPosY(yOrig - 1);
                 p2.setPosX(xOrig - 1);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 //2
                 p2.setPosY(yOrig - 3);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 //3
                 p2.setPosY(yOrig - 4);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
                 //DESTRUYE ENEMIGO Y TRIGGERS
                 Terreno t = new Terreno('S', 1);
                 Mapa m = gestorMapa.getMapa(nivel);
@@ -216,7 +216,7 @@ public class Juego {
                 p2.setPosX(xOrig);
                 p2.setPosY(yOrig);
                 this.renderizar();
-                //DELAY
+                Thread.sleep(750);
             } else if (player == 3) {
                 //NOTHING
             }
@@ -353,7 +353,7 @@ public class Juego {
     private void cargar_Actividad_XML(int nivel) {
         Mapa mapa = gestorMapa.getMapa(nivel);        
         try {
-            File inputFile = new File("terreno.xml");
+            File inputFile = new File("./Files/terreno.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
