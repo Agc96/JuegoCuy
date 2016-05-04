@@ -5,11 +5,17 @@ import java.io.IOException;
 import Controller.*;
 import Model.*;
 import java.awt.Graphics;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.util.List;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +65,24 @@ public class Juego {
         this.inicializarActividad(nivel);
         this.cargar_Dialogos();
     }
-
+    public void deserializar() throws IOException, ClassNotFoundException{
+        ObjectInputStream Lector = new ObjectInputStream(new BufferedInputStream(new FileInputStream("./Save/juego.save")));
+        this.gestorMapa = (GestorMapas) Lector.readObject();
+        this.inicio_Nivel = (boolean) Lector.readObject();
+        this.p1 = (Personaje) Lector.readObject();
+        this.p2 = (Personaje) Lector.readObject();
+        this.nivel = (int) Lector.readObject();
+        Lector.close();
+    }
+    public void serializar() throws IOException{
+        ObjectOutputStream Escritor = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("./Save/juego.save")));
+        Escritor.writeObject(this.gestorMapa);
+        Escritor.writeObject(this.inicio_Nivel);
+        Escritor.writeObject(this.p1);
+        Escritor.writeObject(this.p2); 
+        Escritor.writeObject(this.nivel); 
+        Escritor.close();
+    }
 
     public void capturarAccion(char key) throws IOException, InterruptedException {
         Mapa m = this.gestorMapa.getMapa(nivel);

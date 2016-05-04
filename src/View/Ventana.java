@@ -95,6 +95,15 @@ public class Ventana extends JFrame implements KeyListener{
             if (opcion == JOptionPane.YES_OPTION) System.exit(0);
         }
         
+        if (keyChar == 'g' || keyChar == 'G'){
+            try {
+                juego.serializar();
+            } catch (IOException ex) {
+                Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Partida guardada!");
+        }
+        
         // MENU INICIAL
         if (Juego.eventFlag == Juego.MENU_JUEGO) {
             if (keyChar == '1') {
@@ -114,11 +123,18 @@ public class Ventana extends JFrame implements KeyListener{
                     
                 Juego.eventFlag = Juego.MOSTRAR_INSTRUCCIONES;
             } else if (keyChar == '2') {
-                // cargar el juego
+                try {
+                    juego.deserializar();
+                } catch (IOException ex) {
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JOptionPane.showMessageDialog(null, "Partida cargada!");
             }
         }
         
-        if (Juego.eventFlag == Juego.MOSTRAR_INSTRUCCIONES) {
+        else if (Juego.eventFlag == Juego.MOSTRAR_INSTRUCCIONES) {
             if (keyChar == Event.ENTER) {
 //                try {
                     pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
@@ -131,7 +147,7 @@ public class Ventana extends JFrame implements KeyListener{
         }                
         
         //CAPTURA MOVIMIENTO - USAR INTERPRETE DE COMANDO
-        if (Juego.eventFlag == Juego.CAPTURAR_MOVIMIENTO){
+        else if (Juego.eventFlag == Juego.CAPTURAR_MOVIMIENTO){
             try {
                 juego.capturarAccion(keyChar);
             } catch (IOException | InterruptedException ex){
@@ -158,7 +174,8 @@ public class Ventana extends JFrame implements KeyListener{
         }
         try {
             //ACTUALIZAR INFO - USAR JUEGO.ACTUALIZARINFO
-            juego.actualizarInfo();
+            if (Juego.eventFlag >= Juego.CAPTURAR_MOVIMIENTO)
+                juego.actualizarInfo();
         } catch (IOException | InterruptedException ex){
                 System.out.println("Error en actualizar info");
         }   
