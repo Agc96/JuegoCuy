@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  */
 public abstract class Dibujable {
     protected char elementoGrafico;
-    protected BufferedImage imagen;
+    protected transient BufferedImage imagen;
     protected int alto;
     protected int ancho;
     

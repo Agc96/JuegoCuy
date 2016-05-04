@@ -102,16 +102,21 @@ class JPanelGraficos extends JPanel {
                 Celda celda = getMapa().getMapaAt(f, c);
                 if (celda == null) continue;
                 Dibujable dib = celda.getObj();
-                if (dib == null) continue;
+                if (dib == null) {
+                    try{
+                        BufferedImage empty = ImageIO.read(new File("./Resources/empty.png"));
+                        g.drawImage(empty, c*MAX_SIZE, f*MAX_SIZE, MAX_SIZE, MAX_SIZE, null);
+                    }
+                    catch(Exception ex){}                
+                    continue;
+                }
                 //Obtenemos la imagen y la dibujamos
                 BufferedImage img = dib.getImagen();
                 g.drawImage(img, c*MAX_SIZE, f*MAX_SIZE, MAX_SIZE, MAX_SIZE, null);
             }
         }
-        
         g.drawImage(getImgP1(), p1_posX*MAX_SIZE, p1_posY*MAX_SIZE,MAX_SIZE,MAX_SIZE,null);
         g.drawImage(getImgP2(), p2_posX*MAX_SIZE, p2_posY*MAX_SIZE,MAX_SIZE,MAX_SIZE,null);
-        
     }
 
     public Mapa getMapa() {
