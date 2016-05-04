@@ -312,10 +312,14 @@ public class Juego {
                 inicio_Nivel = true;
                 //System.out.print(". Presiona ENTER para continuar...");
                 //COLOCAR TIMER O UN CAPTURADOR DE KEY
-                inicializarPersonajes(nivel);
-                inicializarActividad(nivel);
-                 if (nivel < gestorMapa.getNumNiveles())
+                if (nivel < gestorMapa.getNumNiveles()){
+                    inicializarPersonajes(nivel);
+                    inicializarActividad(nivel);
                     renderizar();
+                }else{
+                    inicializarPersonajes(0);
+                    inicializarActividad(0);
+                } 
             }
         }
         

@@ -106,7 +106,6 @@ public class Ventana extends JFrame implements KeyListener{
                     System.out.println("Error renderizar");
                 }
                 
-                
                 pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
 
                 pnlTexto.getGraphics().drawString("INSTRUCCIONES", 43, 20);
@@ -115,7 +114,7 @@ public class Ventana extends JFrame implements KeyListener{
                     
                 Juego.eventFlag = Juego.MOSTRAR_INSTRUCCIONES;
             } else if (keyChar == '2') {
-                // cargar el XML
+                // cargar el juego
             }
         }
         
