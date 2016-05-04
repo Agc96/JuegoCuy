@@ -27,10 +27,7 @@ public class Ventana extends JFrame implements KeyListener{
         setVisible(true);
         juego = new Juego(this);
         
-        pnlTexto.getGraphics().drawString("MENÚ PRINCIPAL", 35, 20);
-        pnlTexto.getGraphics().drawString("--------------------------\n", 35, 25);
-                
-        juego.rend.pnlTexto_mostrarLista(pnlTexto.getGraphics(), juego.lstMenu, 45, 15);        
+        this.mostrarMenu();
     }
     
     private void initComponents(){    
@@ -84,6 +81,14 @@ public class Ventana extends JFrame implements KeyListener{
         container.add(pnlTexto);
     }
     
+    public void mostrarMenu(){
+        pnlGrafico.getGraphics().clearRect(0, 0, pnlGrafico.getWidth(), pnlGrafico.getHeight());
+        pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
+        pnlTexto.getGraphics().drawString("MENÚ PRINCIPAL", 35, 20);
+        pnlTexto.getGraphics().drawString("--------------------------\n", 35, 25);
+        juego.rend.pnlTexto_mostrarLista(pnlTexto.getGraphics(), juego.lstMenu, 45, 15);        
+    }
+    
     @Override
     //#MOD
     public void keyPressed(KeyEvent evt) {
@@ -97,9 +102,9 @@ public class Ventana extends JFrame implements KeyListener{
         }
         //#MOD
         //PARA MOSTRAR LAS TRANSICIONES POR DONDE IRA EL PERSONA
-        //SE USA LA TECLA m/M O F1
+        //SE USA LA TECLA M
         if (Juego.eventFlag >= Juego.CAPTURAR_MOVIMIENTO && Juego.eventFlag <= Juego.CAPTURAR_ACCION_DUO){
-            if (keyChar == Event.F1 || keyChar =='m' || keyChar =='M'){
+            if (keyChar =='m' || keyChar =='M'){
                 try {
                     juego.MostrarAccionesPantalla();
                 } catch (IOException ex) {
@@ -109,18 +114,13 @@ public class Ventana extends JFrame implements KeyListener{
             }
         }
         if (keyChar == 'g' || keyChar == 'G'){
-//            try {
-//                juego.serializar();
-//            } catch (IOException ex) {
-//                Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-//            }
             JOptionPane.showMessageDialog(null, "Partida guardada!");
+            return;
         }
         
         // MENU INICIAL
         if (Juego.eventFlag == Juego.MENU_JUEGO) {
             if (keyChar == '1') {
-                
                 try {
                     pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
                     juego.renderizar();                
@@ -129,33 +129,26 @@ public class Ventana extends JFrame implements KeyListener{
                 }
                 
                 pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
-
                 pnlTexto.getGraphics().drawString("INSTRUCCIONES", 43, 20);
                 pnlTexto.getGraphics().drawString("--------------------------\n", 42, 25);                
                 juego.rend.pnlTexto_mostrarLista(pnlTexto.getGraphics(), juego.lstInstrucciones, 60, 30);                    
                     
                 Juego.eventFlag = Juego.MOSTRAR_INSTRUCCIONES;
             } else if (keyChar == '2') {
-//                try {
-//                    juego.deserializar();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (ClassNotFoundException ex) {
-//                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                //CARGAR PARTIDAD
                 JOptionPane.showMessageDialog(null, "Partida cargada!");
             }
         }
         
         else if (Juego.eventFlag == Juego.MOSTRAR_INSTRUCCIONES) {
             if (keyChar == Event.ENTER) {
-//                try {
+                try {
                     pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
-//                    juego.renderizar();                
+                    juego.renderizar();                
                     Juego.eventFlag = Juego.CAPTURAR_MOVIMIENTO;
-//                } catch (IOException | InterruptedException ex){
-//                    System.out.println("Error renderizar");
-//                }
+                } catch (IOException | InterruptedException ex) {
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }                
         

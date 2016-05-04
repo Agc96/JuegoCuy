@@ -1,25 +1,17 @@
 package View;
 
 import java.util.Scanner;
-import java.io.IOException;
 import Controller.*;
 import Model.*;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.util.List;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -88,10 +80,10 @@ public class Juego {
         tipo = lector.interpretaAccionEspecial(key, index, gestorMapa.getMapa(nivel), p1, p2, nivel);
         if (tipo == 0){
             //RESTAR VIDA PERSONAJE
-            //p1.setVida(p1.getVida() - 2);
+            p1.setVida(p1.getVida() - 2);
+            this.rend.pnlTexto_mostrarDatos(ventana.pnlTexto, p1, p2);
         }else if (tipo == 1 || tipo == 2 || tipo == 3){
             ventana.pnlTexto.getGraphics().clearRect(0, 0, ventana.pnlTexto.getWidth(), ventana.pnlTexto.getHeight());
-            
             ejecutarAccionEspecial(tipo);
             eventFlag = CAPTURAR_MOVIMIENTO;
         }
@@ -248,7 +240,6 @@ public class Juego {
                     m.setMapaAt(5, 10, t);
                     m.setMapaAt(6, 10, t);
                 }catch(Exception ex3){}
-                
                 //4
                 p2.setPosX(xOrig);
                 p2.setPosY(yOrig);
@@ -339,7 +330,7 @@ public class Juego {
                 Enemigo e = this.gestorMapa.getEnemigo(nivel);
                 e.setElementoGrafico('E');
                 //DISMINUIR LA VIDA DEL JUGADOR 1
-                this.p1.setVida(this.p1.getVida() - 1);
+                //this.p1.setVida(this.p1.getVida() - 1);
                 //Activar el terreno de accion
                 List l = this.gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
                 for (int i = 0; i < l.size(); i++) {
@@ -352,9 +343,13 @@ public class Juego {
         /*VERIFICAR FIN DE JUEGO*/
         if (finJuego()){
             //cambia eventFlag -> MENU
+            eventFlag = MENU_JUEGO;
             p1.setVida(10);
             if (nivel == gestorMapa.getNumNiveles())
                 nivel = 0;
+            this.inicializarPersonajes(nivel);
+            this.inicializarActividad(nivel);
+            ventana.mostrarMenu();
         }
     }
 
@@ -507,14 +502,23 @@ public class Juego {
             doc.getDocumentElement().normalize();
             NodeList nList = doc.getElementsByTagName("Nivel");
             ////
-            if (nivel == 0){
+            if (true){
                 Node nNode = nList.item(nivel);
                 Element eElement = (Element) nNode;
                 //ACCION ESPECIAL PLAYER1
-                NodeList listAcEsp1 =  eElement.getElementsByTagName("accionEspecial1");
-                Element acEsp1 = (Element) listAcEsp1.item(0);
+                NodeList listAcEsp =  eElement.getElementsByTagName("accionEspecial");
+                Element acEsp1 = (Element) listAcEsp.item(0);
                 NodeList posX = acEsp1.getElementsByTagName("posX");
                 NodeList posY = acEsp1.getElementsByTagName("posY");
+                for (int i = 0; i < posX.getLength(); i++){
+                    int x = Integer.parseInt(posX.item(i).getTextContent());
+                    int y = Integer.parseInt(posY.item(i).getTextContent());
+                    Graphics g = ventana.pnlGrafico.getGraphics();
+                    g.drawImage(imagenes[i], x*64, y*64, null);
+                }
+                Element acEsp2 = (Element) listAcEsp.item(1);
+                posX = acEsp2.getElementsByTagName("posX");
+                posY = acEsp2.getElementsByTagName("posY");
                 for (int i = 0; i < posX.getLength(); i++){
                     int x = Integer.parseInt(posX.item(i).getTextContent());
                     int y = Integer.parseInt(posY.item(i).getTextContent());
