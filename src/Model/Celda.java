@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import Controller.GestorXML;
+import java.io.File;
 
 /**
  *
@@ -46,4 +47,5 @@ public class Celda {
     public void setObj(Dibujable value){
         this.obj = value;
     }
+    
 }

@@ -51,14 +51,15 @@ public class Juego {
         this.ventana = ventana;
         this.inicializarPersonajes(nivel);
         this.inicializarActividad(nivel);
-        //ANHADIDO CARGAR OBJETO AYUDA
-        this.cargar_Objetos_XML(1);
-          
     }
 
 
     public void capturarAccion(char key) throws IOException, InterruptedException {
         Mapa m = this.gestorMapa.getMapa(nivel);
+        if (m == null){
+            System.out.println("Error mapa nulo");
+            System.exit(0);
+        }
         lector.interpretaMovimiento(key, p1, p2, m, nivel);
     }
 
@@ -279,6 +280,14 @@ public class Juego {
                 }
             }
         }
+        
+        /*VERIFICAR FIN DE JUEGO*/
+        if (finJuego()){
+            //cambia eventFlag -> MENU
+            p1.setVida(10);
+            if (nivel == gestorMapa.getNumNiveles())
+                nivel = 0;
+        }
     }
 
     public void renderizar() throws IOException, InterruptedException {
@@ -293,7 +302,7 @@ public class Juego {
         /*Si ha muerto o terminó todos los niveles*/
         return (p1.getVida() <= 0) || (nivel == gestorMapa.getNumNiveles());
     }
-    
+
     private void inicializarPersonajes(int nivel) {
         /*AQUI SE PUEDE REALIZAR LECTURA DE PERSONAJE Y ENEMIGO*/
         /*SUS DATOS, ETC*/
@@ -376,34 +385,6 @@ public class Juego {
             //e.printStackTrace();
         }
     }    
-    
-    private void cargar_Objetos_XML(int nivel){
-        Mapa mapa = gestorMapa.getMapa(nivel);
-        try {
-            File inputFile = new File("objetos.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
-            doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("ObjetoAyuda");
-            
-            for (int i = 0; i < nList.getLength(); i++){
-                Node nNode = nList.item(i);
-                Element eElement = (Element) nNode;
-                String elmGrf = eElement.getElementsByTagName("elementoGrafico").item(0).getTextContent();
-                char elementoGrafico = elmGrf.charAt(0);
-                int fila = Integer.parseInt(eElement.getElementsByTagName("fila").item(0).getTextContent());
-                int columna = Integer.parseInt(eElement.getElementsByTagName("columna").item(0).getTextContent());
-                Dibujable dib = mapa.getMapaAt(fila, columna).getObj();
-                if (dib instanceof Objeto){
-                    Objeto obj = (Objeto) dib;
-                    obj.setElementoGrafico(elementoGrafico);
-                }
-            }
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
-    }
     
     private void parcheActividadInicial(int nivel){
         Mapa mapa = gestorMapa.getMapa(nivel);

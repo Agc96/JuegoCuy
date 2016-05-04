@@ -1,10 +1,11 @@
 package Controller;
 
 import Model.*;
+import java.io.File;
 
 public class GestorMapas {
     private Mapa[] mapas;
-    static int numNiveles = 1;
+    static int numNiveles = 4;
     
     public GestorMapas() {
         mapas = new Mapa[numNiveles];

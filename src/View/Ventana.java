@@ -41,7 +41,8 @@ public class Ventana extends JFrame implements KeyListener{
     }
     
     private void initComponents(){    
-        setSize(1224,768);
+        this.setBounds(50, 10, 1224, 768+28);
+        //setSize(1224,768+38);
         setTitle("Y de donde vengo yo?");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowListener(){

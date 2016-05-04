@@ -4,7 +4,7 @@
 	    <codigo>u</codigo>
 		<clase>Terreno</clase>
 		<nombre>Terreno comun</nombre>
-		<imagen>./Resources/terrenoComun.png</imagen>
+		<imagen>./Resources/o2.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>0</tipo>
@@ -49,6 +49,7 @@
 	    <codigo>T</codigo>
 		<clase>Terreno</clase>
 		<nombre>Trigger A</nombre>
+		<imagen>./Resources/piso1.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>5</tipo>
@@ -57,6 +58,7 @@
 	    <codigo>Y</codigo>
 		<clase>Terreno</clase>
 		<nombre>Trigger B</nombre>
+		<imagen>./Resources/piso2.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>7</tipo>
@@ -74,6 +76,7 @@
 	    <codigo>E</codigo>
 		<clase>Enemigo</clase>
 		<nombre>Enemigo para jugador A</nombre>
+		<imagen>./Resources/enemy.png</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -82,6 +85,7 @@
 	    <codigo>R</codigo>
 		<clase>Enemigo</clase>
 		<nombre>Enemigo para jugador B</nombre>
+		<imagen>./Resources/enemy.png</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -99,6 +103,7 @@
 	    <codigo>g</codigo>
 		<clase>Objeto</clase>
 		<nombre>Obstaculo</nombre>
+		<imagen>./Resources/g.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -107,6 +112,7 @@
 	    <codigo>h</codigo>
 		<clase>Objeto</clase>
 		<nombre>Obstaculo</nombre>
+		<imagen>./Resources/h.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -115,6 +121,7 @@
 	    <codigo>t</codigo>
 		<clase>Objeto</clase>
 		<nombre>Obstaculo</nombre>
+		<imagen>./Resources/t.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -132,6 +139,7 @@
 	    <codigo>L</codigo>
 		<clase>Objeto</clase>
 		<nombre>Obstaculo</nombre>
+		<imagen>./Resources/L.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -140,6 +148,7 @@
 	    <codigo>p</codigo>
 		<clase>Objeto</clase>
 		<nombre>Obstaculo</nombre>
+		<imagen>./Resources/z2.png</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>
@@ -148,6 +157,7 @@
 	    <codigo>i</codigo>
 		<clase>Objeto</clase>
 		<nombre>Obstaculo</nombre>
+		<imagen>./Resources/i.gif</imagen>
 		<alto>1</alto>
 		<ancho>1</ancho>
 		<tipo>1</tipo>

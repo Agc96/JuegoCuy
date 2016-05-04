@@ -72,10 +72,54 @@ public class GestorXML {
     }
     
     public static Dibujable ObtenerDibujable(char c, int posX, int posY)
+            throws IOException, SAXException, ParserConfigurationException
+             {
+        Dibujable dibujable = null;
+        Element nodoNivel = ObtenerNodoPrincipal("./Files/objetos.xml", "Objetos");
+        NodeList lista = nodoNivel.getElementsByTagName("Objeto");
+        Element objeto = ObtenerNodo(lista, "codigo", Character.toString(c));
+        //Obtenemos los valores del nodo
+        int alto = Integer.parseInt(ObtenerValor(objeto, "alto"));
+        int ancho = Integer.parseInt(ObtenerValor(objeto, "ancho"));
+        String clase = ObtenerValor(objeto, "clase");
+        int tipo = Integer.parseInt(ObtenerValor(objeto, "tipo"));
+        //Asignamos sengun el tipo de dibujable
+        switch (clase) {
+            case "Terreno":
+                dibujable = new Terreno(c, alto, ancho, tipo);
+                break;
+            case "Objeto":
+                dibujable = new Objeto(c, alto, ancho, tipo);
+                break;
+            case "Enemigo":
+                //CORREGIR PARA QUE NO SEA NECESARIO ESTE PARCHE
+                if (tipo == 1)
+                    dibujable = new Enemigo(posX, posY, 'S', alto, ancho);
+                else 
+                    dibujable = new Enemigo(posX, posY, 'N', alto, ancho);
+        }        
+        //Colocar imagen en memoria y colocar referencia en la celda
+        String ruta = ObtenerValor(objeto, "imagen");
+        if (ruta != null) try {
+            dibujable.setImagen(ruta);
+        } catch (IOException ex) {
+            System.err.println("ERROR: No se encuentra la imagen en " + ruta);
+            System.exit(1);            
+        }
+        return dibujable;
+    }
+    
+    public static Dibujable ObtenerDibujable(File archObjt, char c, int posX, int posY)
             throws IOException, SAXException, ParserConfigurationException,
             NullPointerException {
         Dibujable dibujable = null;
-        Element nodoNivel = ObtenerNodoPrincipal("./Files/objetos.xml", "Objetos");
+        
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(archObjt);
+        doc.getDocumentElement().normalize();
+        Element nodoNivel = (Element) doc.getElementsByTagName("Objetos").item(0);
+        
         NodeList lista = nodoNivel.getElementsByTagName("Objeto");
         Element objeto = ObtenerNodo(lista, "codigo", Character.toString(c));
         //Obtenemos los valores del nodo
