@@ -68,7 +68,6 @@ public class Ventana extends JFrame implements KeyListener{
         pnlGrafico.setDoubleBuffered(true);
         pnlGrafico.setFocusable(false);
         
-     
         /* INICIALIZAR PANEL TEXTO */
         pnlTexto = new JPanel();
         pnlTexto.setBounds(1024, 0, 200, 768);
