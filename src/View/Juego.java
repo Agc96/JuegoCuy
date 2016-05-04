@@ -5,9 +5,12 @@ import java.io.IOException;
 import Controller.*;
 import Model.*;
 import java.awt.Graphics;
+import java.io.BufferedReader;
 import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,9 +30,12 @@ public class Juego {
     private final Scanner scan;
     public int nivel;
     public boolean inicio_Nivel;
+    public List<String> lstMenu;
+    public List<String> lstInstrucciones;    
     
     private Ventana ventana;
     
+    public static final int MOSTRAR_INSTRUCCIONES = -1;
     public static final int MENU_JUEGO = 0;
     public static final int NOMBRE_PLAYER1 = 1;
     public static final int NOMBRE_PLAYER2 = 2;
@@ -38,7 +44,7 @@ public class Juego {
     public static final int CAPTURAR_ACCION_DUO = 5;
     public static final int NO_CAPTURAR = 9;
 
-    public static int eventFlag = CAPTURAR_MOVIMIENTO; // INDICA EN QUE SECCION ESTOY
+    public static int eventFlag = MENU_JUEGO; // INDICA EN QUE SECCION ESTOY
     
     public Juego(Ventana ventana) {
         rend = new Renderizador();
@@ -51,6 +57,7 @@ public class Juego {
         this.ventana = ventana;
         this.inicializarPersonajes(nivel);
         this.inicializarActividad(nivel);
+        this.cargar_Dialogos();
     }
 
 
@@ -75,6 +82,8 @@ public class Juego {
             //RESTAR VIDA PERSONAJE
             //p1.setVida(p1.getVida() - 2);
         }else if (tipo == 1 || tipo == 2 || tipo == 3){
+            ventana.pnlTexto.getGraphics().clearRect(0, 0, ventana.pnlTexto.getWidth(), ventana.pnlTexto.getHeight());
+            
             ejecutarAccionEspecial(tipo);
             eventFlag = CAPTURAR_MOVIMIENTO;
         }
@@ -254,17 +263,43 @@ public class Juego {
         Dibujable obj2 = mapa.getMapaAt(posY2, posX2).getObj();
         
         /*CAMBIA FLAGS*/
+        String mensaje = null;
         if (obj1 instanceof Terreno)
-            if (((Terreno) obj1).getTipo() == 3 && ((Terreno) obj1).getActivo())
+            if (((Terreno) obj1).getTipo() == 3 && ((Terreno) obj1).getActivo()) {
+                
+                mensaje = "CAISTE EN CELDA";
+                ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 95);
+                mensaje = "DE ACCION ESPECIAL!";
+                ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 110);
+                mensaje = "Ingrese la accion: " + p1.getAccionEspecial(nivel);
+                ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 150);                    
+                
                 eventFlag = CAPTURAR_ACCION_ESPECIAL;
+            }
         if (obj2 instanceof Terreno)
-            if (((Terreno) obj2).getTipo() == 3 && ((Terreno) obj2).getActivo()) 
+            if (((Terreno) obj2).getTipo() == 3 && ((Terreno) obj2).getActivo()) {
+                mensaje = "CAISTE EN CELDA";
+                ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 95);
+                mensaje = "DE ACCION ESPECIAL!";
+                ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 110);
+                mensaje = "Ingrese la accion: " + p2.getAccionEspecial(nivel);
+                ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 150);        
+                
                 eventFlag = CAPTURAR_ACCION_ESPECIAL;
+            }
             else if (obj1 instanceof Terreno)
                 if (((Terreno) obj1).getTipo() == 4
                         && ((Terreno) obj2).getTipo() == 4
                         && ((Terreno) obj1).getActivo()
                         && ((Terreno) obj2).getActivo()) {
+                    
+                    mensaje = "CAISTE EN CELDA";
+                    ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 95);
+                    mensaje = "DE ACCION DUO!";
+                    ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 110);
+                    mensaje = "Ingrese la accion: " + p1.getAccionDuo(nivel);
+                    ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 150);                       
+                    
                     eventFlag = CAPTURAR_ACCION_DUO;
                 }     
 
@@ -313,8 +348,9 @@ public class Juego {
     public void renderizar() throws IOException, InterruptedException {
         Mapa mapa = this.gestorMapa.getMapa(nivel);
         Graphics graph = ventana.pnlGrafico.getGraphics();
-        rend.dibujarMapa(graph,mapa);
-        rend.dibujarJugadores(graph,p1,p2);
+        rend.dibujarMapa(graph, mapa);
+        rend.dibujarJugadores(graph, p1, p2);
+        rend.pnlTexto_mostrarDatos(ventana.pnlTexto.getGraphics(), p1, p2);
     }
 
     private boolean finJuego() {
@@ -417,4 +453,30 @@ public class Juego {
                     ((Terreno) dib).setActivo(true);
             }
     }
+    
+    private void cargar_Dialogos() {
+        BufferedReader br = null;
+
+        lstMenu = new ArrayList<String>();
+        leer_Arch_Lineas(br, "./Files/Dialogo0.txt", lstMenu);
+
+        lstInstrucciones = new ArrayList<String>();
+        leer_Arch_Lineas(br, "./Files/Dialogo1.txt", lstInstrucciones);
+
+    }
+
+    private void leer_Arch_Lineas(BufferedReader br, String ruta, List<String> lstString) {
+        try {
+            br = new BufferedReader(new FileReader(ruta));
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                lstString.add(linea);
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("ERROR: No se encontro el archivo " + ruta);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }        
+    
 }

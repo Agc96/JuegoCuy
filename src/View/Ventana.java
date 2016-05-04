@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
-
-/**
- *
- * @author Godievski
- */
-
 
 import static View.Renderizador.MAX_SIZE;
 import java.awt.*;
@@ -37,7 +26,11 @@ public class Ventana extends JFrame implements KeyListener{
         setResizable(false);
         setVisible(true);
         juego = new Juego(this);
-        juego.renderizar();
+        
+        pnlTexto.getGraphics().drawString("MENÚ PRINCIPAL", 35, 20);
+        pnlTexto.getGraphics().drawString("--------------------------\n", 35, 25);
+                
+        juego.rend.pnlTexto_mostrarLista(pnlTexto.getGraphics(), juego.lstMenu, 45, 15);        
     }
     
     private void initComponents(){    
@@ -76,6 +69,8 @@ public class Ventana extends JFrame implements KeyListener{
         pnlTexto.setIgnoreRepaint(true);
         pnlTexto.setDoubleBuffered(true);
         pnlTexto.setFocusable(false);
+        
+        
         /*INCIALIZAR CONTAINER*/   
         container = new JPanel();
         container.setLayout(null);
@@ -99,6 +94,43 @@ public class Ventana extends JFrame implements KeyListener{
                     JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) System.exit(0);
         }
+        
+        // MENU INICIAL
+        if (Juego.eventFlag == Juego.MENU_JUEGO) {
+            if (keyChar == '1') {
+                
+                try {
+                    pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
+                    juego.renderizar();                
+                } catch (IOException | InterruptedException ex){
+                    System.out.println("Error renderizar");
+                }
+                
+                
+                pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
+
+                pnlTexto.getGraphics().drawString("INSTRUCCIONES", 43, 20);
+                pnlTexto.getGraphics().drawString("--------------------------\n", 42, 25);                
+                juego.rend.pnlTexto_mostrarLista(pnlTexto.getGraphics(), juego.lstInstrucciones, 60, 30);                    
+                    
+                Juego.eventFlag = Juego.MOSTRAR_INSTRUCCIONES;
+            } else if (keyChar == '2') {
+                // cargar el XML
+            }
+        }
+        
+        if (Juego.eventFlag == Juego.MOSTRAR_INSTRUCCIONES) {
+            if (keyChar == Event.ENTER) {
+//                try {
+                    pnlTexto.getGraphics().clearRect(0, 0, pnlTexto.getWidth(), pnlTexto.getHeight());
+//                    juego.renderizar();                
+                    Juego.eventFlag = Juego.CAPTURAR_MOVIMIENTO;
+//                } catch (IOException | InterruptedException ex){
+//                    System.out.println("Error renderizar");
+//                }
+            }
+        }                
+        
         //CAPTURA MOVIMIENTO - USAR INTERPRETE DE COMANDO
         if (Juego.eventFlag == Juego.CAPTURAR_MOVIMIENTO){
             try {

@@ -1,0 +1,2 @@
+1. Iniciar nuevo juego
+2. Cargar juego
