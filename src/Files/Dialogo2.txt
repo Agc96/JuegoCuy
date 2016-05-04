@@ -1,0 +1,3 @@
+- En tu aventura, a veces te toparas con animales malos.
+- Estos enemigos te bajaran puntos de vida. Si tus puntos de vida llegan a 0, se acabara el juego.
+- Si un enemigo afecta a un personaje, este no se podra mover. Tendras que usar a su amigo para ayudarlo.

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Terrenos>
+    <Nivel>
+        <nombre>Terreno0</nombre>
+        <fila>5</fila>
+        <columna>13</columna>
+        <fila>8</fila>
+        <columna>13</columna>
+    </Nivel>
+    <Nivel>
+        <nombre>Terreno1</nombre>
+        <fila>9</fila>
+        <columna>4</columna>
+    </Nivel>
+    <Nivel>
+        <nombre>Terreno2</nombre>
+        <fila>6</fila>
+        <columna>8</columna>
+        <fila>8</fila>
+        <columna>8</columna>
+    </Nivel>
+    <Nivel>
+        <nombre>Terreno3</nombre>
+        <fila>9</fila>
+        <columna>10</columna>
+    </Nivel>
+</Terrenos>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Niveles>
+	<Nivel>
+		<tipo>Nivel0</tipo>
+		<p1PosY>2</p1PosY>
+		<p1PosX>0</p1PosX>
+		<p1AccEsp>WDEQ</p1AccEsp>
+		<p2PosY>11</p2PosY>
+		<p2PosX>0</p2PosX>
+		<p2AccEsp></p2AccEsp>
+		<AccDuo>SDKIQEUO</AccDuo>		
+	</Nivel>
+	<Nivel>
+		<tipo>Nivel1</tipo>
+		<p1PosY>5</p1PosY>
+		<p1PosX>15</p1PosX>
+		<p1AccEsp>SDQEQE</p1AccEsp>
+		<p2PosY>9</p2PosY>
+		<p2PosX>15</p2PosX>
+		<p2AccEsp>JJUOJ</p2AccEsp>
+		<AccDuo></AccDuo>	
+	</Nivel>
+	<Nivel>
+		<tipo>Nivel2</tipo>
+		<p1PosY>5</p1PosY>
+		<p1PosX>0</p1PosX>
+		<p1AccEsp>SDEWD</p1AccEsp>
+		<p2PosY>10</p2PosY>
+		<p2PosX>0</p2PosX>
+		<p2AccEsp></p2AccEsp>
+		<AccDuo>SIQEUOKLSD</AccDuo>	
+	</Nivel>
+	<Nivel>
+		<tipo>Nivel3</tipo>
+		<p1PosY>5</p1PosY>
+		<p1PosX>15</p1PosX>
+		<p1AccEsp>WQEWW</p1AccEsp>
+		<p2PosY>9</p2PosY>
+		<p2PosX>15</p2PosX>
+		<p2AccEsp>KLIUOJ</p2AccEsp>
+		<AccDuo></AccDuo>	
+	</Nivel>
+</Niveles>

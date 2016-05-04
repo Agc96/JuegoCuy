@@ -1,0 +1,15 @@
+------------------------------------------------------------------------------
+                                INSTRUCCIONES
+------------------------------------------------------------------------------
+- Usa WASD para mover a Kiru y JKLI para mover a Milo.
+- Si ves un lugar para la accion o el duo... Parate sobre el!!
+  Podras realizar acciones especiales.
+- Solo podras pasar los niveles con la ayuda de las acciones especiales. Para
+  esto, tendras que presionar comandos que se mostraran en un cuadro de
+  dialogo como este.
+- Los comandos deben ser ejecutados en la secuencia correcta, sino
+  perderas puntos de vida.
+- Puedes ver los puntos de vida en la parte superior de la pantalla.
+- Para activar los terrenos con acciones especiales duo, tienen que estar sobre
+  ellos Kiru y Milo al mismo tiempo, en los de acciones especiales solo con uno
+  basta.
