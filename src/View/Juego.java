@@ -314,7 +314,8 @@ public class Juego {
                 //COLOCAR TIMER O UN CAPTURADOR DE KEY
                 inicializarPersonajes(nivel);
                 inicializarActividad(nivel);
-                renderizar();
+                 if (nivel < gestorMapa.getNumNiveles())
+                    renderizar();
             }
         }
         
