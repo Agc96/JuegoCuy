@@ -125,13 +125,20 @@ public class Juego {
                 //AQUI DESTRUYE ESAS COSAS
                 Celda celda1 = gestorMapa.getMapa(nivel).getMapaAt(yOrig + 4, xOrig);
                 Celda celda2 = gestorMapa.getMapa(nivel).getMapaAt(yOrig + 5, xOrig);
-                celda1.setObj(new Terreno('N', 2));
-                celda2.setObj(new Terreno('N', 2));
-                this.renderizar();
-                Thread.sleep(750);
+                try{
+                    Dibujable d = GestorXML.ObtenerDibujable('N',0,0);
+                    celda1.setObj(d);
+                    this.renderizar();
+                    Thread.sleep(750);
+                    celda2.setObj(d);
+                    this.renderizar();
+                    Thread.sleep(750);
+                }catch(Exception ex){}
                 //VUELVE AL ORIGINAL
                 p1.setPosX(xOrig);
                 p1.setPosY(yOrig);
+                this.renderizar();
+                Thread.sleep(750);
                 //ACTIVAR TERRENOS
                 List listaDuo = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
                 for (int i = 0; i < listaDuo.size(); i++) {
@@ -147,11 +154,17 @@ public class Juego {
                 Thread.sleep(750);
                 /////
                 p2.setPosX(xOrig - 2);
+                this.renderizar();
+                Thread.sleep(750);
                 //DESTRUYE LA ARENA
                 Celda celda = gestorMapa.getMapa(nivel).getMapaAt(yOrig, xOrig - 1);
                 celda.setObj(new Terreno('N', 2));
-                this.renderizar();
-                Thread.sleep(750);
+                try{
+                    Dibujable d = GestorXML.ObtenerDibujable('N',0,0);
+                    celda.setObj(d);
+                    this.renderizar();
+                    Thread.sleep(750);
+                }catch(Exception ex){}
             } else if (player == 3) {
                 //NOTHING
             }
@@ -206,13 +219,19 @@ public class Juego {
                 this.renderizar();
                 Thread.sleep(750);
                 //DESTRUYE ENEMIGO Y TRIGGERS
-                Terreno t = new Terreno('S', 1);
-                Mapa m = gestorMapa.getMapa(nivel);
-                m.setMapaAt(4, 9, t);
-                m.setMapaAt(3, 10, t);
-                m.setMapaAt(4, 10, t);
-                m.setMapaAt(5, 10, t);
-                m.setMapaAt(6, 10, t);
+                try{
+                    Dibujable dib = GestorXML.ObtenerDibujable('S', 0, 0);
+                    Terreno t = null;
+                    if (dib instanceof Terreno) 
+                        t = (Terreno) dib;
+                    Mapa m = gestorMapa.getMapa(nivel);
+                    m.setMapaAt(4, 9, t);
+                    m.setMapaAt(3, 10, t);
+                    m.setMapaAt(4, 10, t);
+                    m.setMapaAt(5, 10, t);
+                    m.setMapaAt(6, 10, t);
+                }catch(Exception ex3){}
+                
                 //4
                 p2.setPosX(xOrig);
                 p2.setPosY(yOrig);
@@ -260,11 +279,12 @@ public class Juego {
                 //COLOCAR TIMER O UN CAPTURADOR DE KEY
                 inicializarPersonajes(nivel);
                 inicializarActividad(nivel);
+                renderizar();
             }
         }
         
         /*VERIFICA SI EL PERSONAJE CAYÓ EN UN TRIGGER ENEMIGO*/
-        if (obj1 instanceof Terreno || obj2 instanceof Terreno) {
+        if (obj1 instanceof Terreno) {
             Terreno ter = (Terreno) obj1;
             if (ter.getActivo() && ter.getTipo() == 5) {
                 //ACTIVE LA VISIBILIDAD DEL ENEMIGO Y QUE LO MUESTRE
