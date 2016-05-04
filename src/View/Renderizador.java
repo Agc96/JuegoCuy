@@ -97,12 +97,22 @@ class JPanelGraficos extends JPanel {
         super.paint(g);
 
         /*ELIMINAR LA LINEA DE ABAGO Y DESCOMENTAR LA OTRA*/
+        BufferedImage empty = null;
+        try {
+            empty = ImageIO.read(new File("./Resources/empty.png"));
+        } catch (IOException ex){
+            System.out.println("Error al leer el archivo empty.png");
+        }        
+        
         for (int f = 0; f < Mapa.NUM_FILAS; ++f){
             for (int c = 0; c < Mapa.NUM_COLUMNAS; ++c){
                 Celda celda = getMapa().getMapaAt(f, c);
                 if (celda == null) continue;
                 Dibujable dib = celda.getObj();
-                if (dib == null) continue;
+                if (dib == null) {
+                    g.drawImage(empty, c*MAX_SIZE, f*MAX_SIZE, MAX_SIZE, MAX_SIZE, null);
+                    continue;
+                }
                 //Obtenemos la imagen y la dibujamos
                 BufferedImage img = dib.getImagen();
                 g.drawImage(img, c*MAX_SIZE, f*MAX_SIZE, MAX_SIZE, MAX_SIZE, null);
