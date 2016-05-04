@@ -15,7 +15,7 @@ import javax.swing.*;
 public class Ventana extends JFrame implements KeyListener{
     
     private Juego juego;
-    public JPanelGraficos pnlGrafico;
+    public JPanel pnlGrafico;
     public JPanel pnlTexto;
     public JPanel container;
     private static int index = 0;
@@ -54,7 +54,7 @@ public class Ventana extends JFrame implements KeyListener{
         });
         
         /*INICIALIZAR PANEL GRAFICO*/
-        pnlGrafico = new JPanelGraficos();
+        pnlGrafico = new JPanel();
         pnlGrafico.setBounds(0, 0, 1024, 768);
         pnlGrafico.setSize(1024,768);
         pnlGrafico.setBackground(Color.red);
@@ -85,6 +85,7 @@ public class Ventana extends JFrame implements KeyListener{
     }
     
     @Override
+    //#MOD
     public void keyPressed(KeyEvent evt) {
         char keyChar = evt.getKeyChar();
         //Opción para salir del juego
@@ -94,13 +95,25 @@ public class Ventana extends JFrame implements KeyListener{
                     JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) System.exit(0);
         }
-        
-        if (keyChar == 'g' || keyChar == 'G'){
-            try {
-                juego.serializar();
-            } catch (IOException ex) {
-                Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        //#MOD
+        //PARA MOSTRAR LAS TRANSICIONES POR DONDE IRA EL PERSONA
+        //SE USA LA TECLA m/M O F1
+        if (Juego.eventFlag >= Juego.CAPTURAR_MOVIMIENTO && Juego.eventFlag <= Juego.CAPTURAR_ACCION_DUO){
+            if (keyChar == Event.F1 || keyChar =='m' || keyChar =='M'){
+                try {
+                    juego.MostrarAccionesPantalla();
+                } catch (IOException ex) {
+                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return;
             }
+        }
+        if (keyChar == 'g' || keyChar == 'G'){
+//            try {
+//                juego.serializar();
+//            } catch (IOException ex) {
+//                Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             JOptionPane.showMessageDialog(null, "Partida guardada!");
         }
         
@@ -123,13 +136,13 @@ public class Ventana extends JFrame implements KeyListener{
                     
                 Juego.eventFlag = Juego.MOSTRAR_INSTRUCCIONES;
             } else if (keyChar == '2') {
-                try {
-                    juego.deserializar();
-                } catch (IOException ex) {
-                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    juego.deserializar();
+//                } catch (IOException ex) {
+//                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (ClassNotFoundException ex) {
+//                    Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 JOptionPane.showMessageDialog(null, "Partida cargada!");
             }
         }

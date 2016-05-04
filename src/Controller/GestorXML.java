@@ -10,6 +10,7 @@ import Model.Enemigo;
 import Model.Objeto;
 import Model.Personaje;
 import Model.Terreno;
+import View.Juego;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -57,18 +58,25 @@ public class GestorXML {
         return objeto;
     }
     
-    public static void CargarPartida(Personaje p1, Personaje p2) throws IOException,
-            SAXException, ParserConfigurationException {
+    public static void CargarPartida(String nomArch, Juego j)
+            throws IOException, SAXException, ParserConfigurationException {
         /* FALTA TERMINAR */
-        Element nodoNivel = ObtenerNodoPrincipal("partida.xml", "Juego");
-        int vida = Integer.parseInt(ObtenerValor(nodoNivel, "vida"));
-        System.out.println(vida);
-        int nivel = Integer.parseInt(ObtenerValor(nodoNivel, "nivel"));
-        System.out.println(nivel);
+        Element nodoNivel = ObtenerNodoPrincipal(nomArch, "Juego");
+        //Colocar la vida y el nivel
+        j.p1.setVida(Integer.parseInt(ObtenerValor(nodoNivel, "vida")));
+        j.nivel = Integer.parseInt(ObtenerValor(nodoNivel, "nivel"));
+        //Colocar datos del personaje 1
+        Element nodoP1 = ObtenerNodo(nodoNivel, "Personaje", 0);
+        j.p1.setNombre(ObtenerValor(nodoP1, "nombre"));
+        j.p1.setPosX(Integer.parseInt(ObtenerValor(nodoP1, "posX")));
+        j.p1.setPosY(Integer.parseInt(ObtenerValor(nodoP1, "posY")));
         //Colocar datos del personaje 2
-        Element nodoP2 = ObtenerNodo(nodoNivel, "Personaje", 0);
-        p2.setPosX(Integer.parseInt(ObtenerValor(nodoP2, "posX")));
-        Element mapa = ObtenerNodo(nodoNivel, "Mapa", 0);
+        Element nodoP2 = ObtenerNodo(nodoNivel, "Personaje", 1);
+        j.p2.setNombre(ObtenerValor(nodoP2, "nombre"));
+        j.p2.setPosX(Integer.parseInt(ObtenerValor(nodoP2, "posX")));
+        j.p2.setPosY(Integer.parseInt(ObtenerValor(nodoP2, "posY")));
+//        //Colocar datos del mapa
+//        Element mapa = ObtenerNodo(nodoNivel, "Mapa", 0);
     }
     
     public static Dibujable ObtenerDibujable(char c, int posX, int posY)

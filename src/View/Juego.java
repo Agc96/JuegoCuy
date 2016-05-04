@@ -5,6 +5,7 @@ import java.io.IOException;
 import Controller.*;
 import Model.*;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -19,6 +20,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -65,24 +68,6 @@ public class Juego {
         this.inicializarActividad(nivel);
         this.cargar_Dialogos();
     }
-    public void deserializar() throws IOException, ClassNotFoundException{
-        ObjectInputStream Lector = new ObjectInputStream(new BufferedInputStream(new FileInputStream("./Save/juego.save")));
-        this.gestorMapa = (GestorMapas) Lector.readObject();
-        this.inicio_Nivel = (boolean) Lector.readObject();
-        this.p1 = (Personaje) Lector.readObject();
-        this.p2 = (Personaje) Lector.readObject();
-        this.nivel = (int) Lector.readObject();
-        Lector.close();
-    }
-    public void serializar() throws IOException{
-        ObjectOutputStream Escritor = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("./Save/juego.save")));
-        Escritor.writeObject(this.gestorMapa);
-        Escritor.writeObject(this.inicio_Nivel);
-        Escritor.writeObject(this.p1);
-        Escritor.writeObject(this.p2); 
-        Escritor.writeObject(this.nivel); 
-        Escritor.close();
-    }
 
     public void capturarAccion(char key) throws IOException, InterruptedException {
         Mapa m = this.gestorMapa.getMapa(nivel);
@@ -119,7 +104,7 @@ public class Juego {
             if (player == 1) {
                 for (int i = 0; i < 3; i++) {
                     p1.setPosX(p1.getPosX() + 1);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                 }
                 //ACTIVAR TERRENOS
@@ -133,12 +118,12 @@ public class Juego {
             } else if (player == 3) {
                 p1.setPosY(p1.getPosY() + 1);
                 p2.setPosY(p2.getPosY() - 1);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 for (int i = 0; i < 2; i++) {
                     p1.setPosX(p1.getPosX() + 1);
                     p2.setPosX(p2.getPosX() + 1);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                 }
             }
@@ -148,11 +133,11 @@ public class Juego {
                 int yOrig = p1.getPosY();
                 for (int i = 0; i < 2; i++) {
                     p1.setPosY(p1.getPosY() + 1);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                 }
                 p1.setPosY(yOrig + 4);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 //AQUI DESTRUYE ESAS COSAS
                 Celda celda1 = gestorMapa.getMapa(nivel).getMapaAt(yOrig + 4, xOrig);
@@ -160,16 +145,16 @@ public class Juego {
                 try{
                     Dibujable d = GestorXML.ObtenerDibujable('N',0,0);
                     celda1.setObj(d);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                     celda2.setObj(d);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                 }catch(Exception ex){}
                 //VUELVE AL ORIGINAL
                 p1.setPosX(xOrig);
                 p1.setPosY(yOrig);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 //ACTIVAR TERRENOS
                 List listaDuo = gestorMapa.getMapa(nivel).getListaTerrenoInactivo();
@@ -182,11 +167,11 @@ public class Juego {
                 int xOrig = p2.getPosX();
                 int yOrig = p2.getPosY();
                 p2.setPosX(xOrig - 1);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 /////
                 p2.setPosX(xOrig - 2);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 //DESTRUYE LA ARENA
                 Celda celda = gestorMapa.getMapa(nivel).getMapaAt(yOrig, xOrig - 1);
@@ -194,7 +179,7 @@ public class Juego {
                 try{
                     Dibujable d = GestorXML.ObtenerDibujable('N',0,0);
                     celda.setObj(d);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                 }catch(Exception ex){}
             } else if (player == 3) {
@@ -204,7 +189,7 @@ public class Juego {
             if (player == 1) {
                 for (int i = 0; i < 3; i++) {
                     p1.setPosX(p1.getPosX() + 1);
-                    this.renderizar_Parche();
+                    this.renderizar();
                     Thread.sleep(750);
                 }
                 //ACTIVAR TERRENOS
@@ -218,16 +203,16 @@ public class Juego {
             } else if (player == 3) {
                 p1.setPosX(p1.getPosX() + 1);
                 p2.setPosX(p2.getPosX() + 1);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 p1.setPosX(p1.getPosX() + 3);
                 p1.setPosY(p1.getPosY() - 1);
                 p2.setPosX(p2.getPosX() + 3);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 p1.setPosY(p1.getPosY() + 1);
                 p2.setPosY(p2.getPosY() - 1);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
             }
         } else if (nivel == 3) {//NIVEL CON ENEMIGO
@@ -240,15 +225,15 @@ public class Juego {
                 //1
                 p2.setPosY(yOrig - 1);
                 p2.setPosX(xOrig - 1);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 //2
                 p2.setPosY(yOrig - 3);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 //3
                 p2.setPosY(yOrig - 4);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
                 //DESTRUYE ENEMIGO Y TRIGGERS
                 try{
@@ -267,7 +252,7 @@ public class Juego {
                 //4
                 p2.setPosX(xOrig);
                 p2.setPosY(yOrig);
-                this.renderizar_Parche();
+                this.renderizar();
                 Thread.sleep(750);
             } else if (player == 3) {
                 //NOTHING
@@ -373,30 +358,13 @@ public class Juego {
         }
     }
 
-    public void renderizar_Parche() throws IOException, InterruptedException {
+    public void renderizar() throws IOException, InterruptedException {
         Mapa mapa = this.gestorMapa.getMapa(nivel);
         Graphics graph = ventana.pnlGrafico.getGraphics();
         rend.dibujarMapa(graph, mapa);
         rend.dibujarJugadores(graph, p1, p2);
-        rend.pnlTexto_mostrarDatos(ventana.pnlTexto.getGraphics(), p1, p2);
+        rend.pnlTexto_mostrarDatos(ventana.pnlTexto, p1, p2);
     }    
-    
-    public void renderizar() throws IOException, InterruptedException {
-        Mapa mapa = this.gestorMapa.getMapa(nivel);
-
-        ventana.pnlGrafico.setMapa(mapa);
-        ventana.pnlGrafico.setImgP1(p1.getImagen());
-        ventana.pnlGrafico.setImgP2(p2.getImagen());
-        
-        ventana.pnlGrafico.setP1_posX(p1.getPosX());
-        ventana.pnlGrafico.setP1_posY(p1.getPosY());
-        ventana.pnlGrafico.setP2_posX(p2.getPosX());
-        ventana.pnlGrafico.setP2_posY(p2.getPosY());
-        
-        ventana.pnlGrafico.repaint();
-        
-        rend.pnlTexto_mostrarDatos(ventana.pnlTexto.getGraphics(), p1, p2);
-    }
 
     private boolean finJuego() {
         /*TOPE NIVEL: cantidad de mapas*/
@@ -524,4 +492,61 @@ public class Juego {
         }
     }        
     
+    //#MOD
+    public void MostrarAccionesPantalla() throws IOException{
+        BufferedImage[] imagenes = new BufferedImage[4];
+        for (int i = 0; i < 4; i++){
+            imagenes[i] = ImageIO.read(new File("./Transiciones/"+(i+1)+".png"));
+        }
+        //CARGAR XML
+        try {
+            File inputFile = new File("./Transiciones/transiciones.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("Nivel");
+            ////
+            if (nivel == 0){
+                Node nNode = nList.item(nivel);
+                Element eElement = (Element) nNode;
+                //ACCION ESPECIAL PLAYER1
+                NodeList listAcEsp1 =  eElement.getElementsByTagName("accionEspecial1");
+                Element acEsp1 = (Element) listAcEsp1.item(0);
+                NodeList posX = acEsp1.getElementsByTagName("posX");
+                NodeList posY = acEsp1.getElementsByTagName("posY");
+                for (int i = 0; i < posX.getLength(); i++){
+                    int x = Integer.parseInt(posX.item(i).getTextContent());
+                    int y = Integer.parseInt(posY.item(i).getTextContent());
+                    Graphics g = ventana.pnlGrafico.getGraphics();
+                    g.drawImage(imagenes[i], x*64, y*64, null);
+                }
+                //ACCION DUO PLAYER1
+                NodeList listAcDuo =  eElement.getElementsByTagName("accionDuo");
+                Element acDuo1 = (Element) listAcDuo.item(0);
+                posX = acDuo1.getElementsByTagName("posX");
+                posY = acDuo1.getElementsByTagName("posY");
+                for (int i = 0; i < posX.getLength(); i++){
+                    int x = Integer.parseInt(posX.item(i).getTextContent());
+                    int y = Integer.parseInt(posY.item(i).getTextContent());
+                    Graphics g = ventana.pnlGrafico.getGraphics();
+                    g.drawImage(imagenes[i], x*64, y*64, null);
+                }
+                //ACCION DUO PLAYER2
+                Element acDuo2 = (Element) listAcDuo.item(1);
+                posX = acDuo2.getElementsByTagName("posX");
+                posY = acDuo2.getElementsByTagName("posY");
+                for (int i = 0; i < posX.getLength(); i++){
+                    int x = Integer.parseInt(posX.item(i).getTextContent());
+                    int y = Integer.parseInt(posY.item(i).getTextContent());
+                    Graphics g = ventana.pnlGrafico.getGraphics();
+                    g.drawImage(imagenes[i], x*64, y*64, null);
+                }
+            }
+            
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        
+    }
 }

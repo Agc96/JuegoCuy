@@ -75,10 +75,12 @@ public class Serializador {
             AnadirValor(doc, nodoP2, "posX", Integer.toString(p2.getPosX()));
             AnadirValor(doc, nodoP2, "posY", Integer.toString(p2.getPosY()));
             //Añadimos los datos del mapa
-            Element nodoMapa = CrearNodo(doc, raiz, "Mapa");
-            AnadirValor(doc, nodoMapa, "accion1", Boolean.toString(true));
-            AnadirValor(doc, nodoMapa, "accion2", Boolean.toString(false));
-            AnadirValor(doc, nodoMapa, "accionDuo", Boolean.toString(true));
+            
+//            Element nodoMapa = CrearNodo(doc, raiz, "Mapa");
+//            AnadirValor(doc, nodoMapa, "accion1", Boolean.toString(true));
+//            AnadirValor(doc, nodoMapa, "accion2", Boolean.toString(false));
+//            AnadirValor(doc, nodoMapa, "accionDuo", Boolean.toString(true));
+
             //Indicamos donde lo queremos almacenar
             File arch = new File(nomArch); //nombre del archivo
             Transformer tf = TransformerFactory.newInstance().newTransformer();
