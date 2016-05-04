@@ -1,6 +1,7 @@
 package View;
 import Controller.GestorMapas;
 import Model.*;
+import static View.Renderizador.MAX_SIZE;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -77,4 +78,104 @@ public class Renderizador {
         }
     }    
     
+}
+
+
+
+class JPanelGraficos extends JPanel {
+    private Mapa mapa;
+    private Ventana ventana;
+    private BufferedImage imgP1;
+    private BufferedImage imgP2;
+    private int p1_posX;
+    private int p1_posY;
+    private int p2_posX;
+    private int p2_posY;
+    Object flagDibujo;
+
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        /*ELIMINAR LA LINEA DE ABAGO Y DESCOMENTAR LA OTRA*/
+        for (int f = 0; f < Mapa.NUM_FILAS; ++f){
+            for (int c = 0; c < Mapa.NUM_COLUMNAS; ++c){
+                Celda celda = getMapa().getMapaAt(f, c);
+                if (celda == null) continue;
+                Dibujable dib = celda.getObj();
+                if (dib == null) continue;
+                //Obtenemos la imagen y la dibujamos
+                BufferedImage img = dib.getImagen();
+                g.drawImage(img, c*MAX_SIZE, f*MAX_SIZE, MAX_SIZE, MAX_SIZE, null);
+            }
+        }
+        
+        g.drawImage(getImgP1(), p1_posX*MAX_SIZE, p1_posY*MAX_SIZE,MAX_SIZE,MAX_SIZE,null);
+        g.drawImage(getImgP2(), p2_posX*MAX_SIZE, p2_posY*MAX_SIZE,MAX_SIZE,MAX_SIZE,null);
+        
+    }
+
+    public Mapa getMapa() {
+        return mapa;
+    }
+
+    public void setMapa(Mapa mapa) {
+        this.mapa = mapa;
+    }
+
+    public Ventana getVentana() {
+        return ventana;
+    }
+
+    public void setVentana(Ventana ventana) {
+        this.ventana = ventana;
+    }
+
+    public BufferedImage getImgP1() {
+        return imgP1;
+    }
+
+    public void setImgP1(BufferedImage imgP1) {
+        this.imgP1 = imgP1;
+    }
+
+    public BufferedImage getImgP2() {
+        return imgP2;
+    }
+
+    public void setImgP2(BufferedImage imgP2) {
+        this.imgP2 = imgP2;
+    }
+
+    public int getP1_posX() {
+        return p1_posX;
+    }
+
+    public void setP1_posX(int p1_posX) {
+        this.p1_posX = p1_posX;
+    }
+
+    public int getP1_posY() {
+        return p1_posY;
+    }
+
+    public void setP1_posY(int p1_posY) {
+        this.p1_posY = p1_posY;
+    }
+
+    public int getP2_posX() {
+        return p2_posX;
+    }
+
+    public void setP2_posX(int p2_posX) {
+        this.p2_posX = p2_posX;
+    }
+
+    public int getP2_posY() {
+        return p2_posY;
+    }
+
+    public void setP2_posY(int p2_posY) {
+        this.p2_posY = p2_posY;
+    }
+
 }

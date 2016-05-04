@@ -15,7 +15,7 @@ import javax.swing.*;
 public class Ventana extends JFrame implements KeyListener{
     
     private Juego juego;
-    public JPanel pnlGrafico;
+    public JPanelGraficos pnlGrafico;
     public JPanel pnlTexto;
     public JPanel container;
     private static int index = 0;
@@ -54,7 +54,7 @@ public class Ventana extends JFrame implements KeyListener{
         });
         
         /*INICIALIZAR PANEL GRAFICO*/
-        pnlGrafico = new JPanel();
+        pnlGrafico = new JPanelGraficos();
         pnlGrafico.setBounds(0, 0, 1024, 768);
         pnlGrafico.setSize(1024,768);
         pnlGrafico.setBackground(Color.red);
