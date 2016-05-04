@@ -57,7 +57,6 @@ public class Juego {
         inicio_Nivel = true;
         this.ventana = ventana;
         this.inicializarPersonajes(nivel);
-        this.inicializarActividad(nivel);
         this.cargar_Dialogos();
     }
 
@@ -272,7 +271,6 @@ public class Juego {
                 ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 110);
                 mensaje = "Ingrese la accion: " + p1.getAccionEspecial(nivel);
                 ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 150);                    
-                
                 eventFlag = CAPTURAR_ACCION_ESPECIAL;
             }
         if (obj2 instanceof Terreno)
@@ -283,7 +281,6 @@ public class Juego {
                 ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 110);
                 mensaje = "Ingrese la accion: " + p2.getAccionEspecial(nivel);
                 ventana.pnlTexto.getGraphics().drawString(mensaje, 15, 150);        
-                
                 eventFlag = CAPTURAR_ACCION_ESPECIAL;
             }
             else if (obj1 instanceof Terreno)
@@ -313,11 +310,11 @@ public class Juego {
                 //COLOCAR TIMER O UN CAPTURADOR DE KEY
                 if (nivel < gestorMapa.getNumNiveles()){
                     inicializarPersonajes(nivel);
-                    inicializarActividad(nivel);
+                    restaurarActividad(nivel);
                     renderizar();
                 }else{
                     inicializarPersonajes(0);
-                    inicializarActividad(0);
+                    restaurarActividad(0);
                 } 
             }
         }
@@ -348,7 +345,7 @@ public class Juego {
             if (nivel == gestorMapa.getNumNiveles())
                 nivel = 0;
             this.inicializarPersonajes(nivel);
-            this.inicializarActividad(nivel);
+            this.restaurarActividad(nivel);
             ventana.mostrarMenu();
         }
     }
@@ -415,13 +412,7 @@ public class Juego {
         }
     }   
 
-    private void inicializarActividad(int nivel) {
-        if (nivel < 0 || nivel >= gestorMapa.getNumNiveles());
-        Mapa mapa = gestorMapa.getMapa(nivel);
-        /*PARCHE 1*/
-        this.parcheActividadInicial(nivel);
-        this.cargar_Actividad_XML(nivel);
-    }
+    
 
     private void cargar_Actividad_XML(int nivel) {
         Mapa mapa = gestorMapa.getMapa(nivel);        
@@ -450,7 +441,7 @@ public class Juego {
         }
     }    
     
-    private void parcheActividadInicial(int nivel){
+    private void restaurarActividad(int nivel){
         Mapa mapa = gestorMapa.getMapa(nivel);
         if (mapa == null) return;
         for (int i = 0; i < 12; i++)

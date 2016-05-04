@@ -22,6 +22,7 @@ public class InterpreteComandos {
             /*PARA P1*/
             if (p1.getAccionEspecial(nivel).length() == (index + 1) ){
                 Celda celda = mapa.getMapaAt( p1.getPosY(),p1.getPosX());
+                //Desactiva terreno
                 ((Terreno) celda.getObj()).setActivo(false);
                 return 1;
             }
@@ -33,6 +34,7 @@ public class InterpreteComandos {
             /*PARA P2*/
             if (p2.getAccionEspecial(nivel).length() == (index + 1) ){
                 Celda celda = mapa.getMapaAt( p2.getPosY(),p2.getPosX());
+                //Desactiva terreno
                 ((Terreno) celda.getObj()).setActivo(false);
                 return 2;
             }
