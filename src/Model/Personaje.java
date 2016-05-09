@@ -19,7 +19,9 @@ public class Personaje extends Dibujable{
     public static final int TRIGGER_ENEMIGO = 3;
     public static final int META = 4;
     private int estado;
-    
+    //NEW
+    private int oldX;
+    private int oldY;
     public Personaje(char elementoGrafico){
         super(elementoGrafico);
         vida = 10;
@@ -30,6 +32,10 @@ public class Personaje extends Dibujable{
     public Personaje (int posX, int posY, char elementoGrafico) {
         super(elementoGrafico);
         vida = 10;
+        //NEW
+        this.oldX = posX;
+        this.oldY = posY;
+        /**/
         this.posX = posX;
         this.posY = posY;
         this.nombre = null;
@@ -45,7 +51,20 @@ public class Personaje extends Dibujable{
         this.accionEspecial = new String[5];
         this.estado = TERRENO;
     }
-    
+    //NEW
+    public void setOldX(int x){
+        this.oldX = x;
+    }
+    public int getOldX(){
+        return this.oldX;
+    }
+    public void setOldY(int y){
+        this.oldY = y;
+    }
+    public int getOldY(){
+        return this.oldY;
+    }
+    /**/
     public void setEstado(int tipoEstado){
         this.estado = tipoEstado;
     }

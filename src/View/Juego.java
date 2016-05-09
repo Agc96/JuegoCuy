@@ -341,8 +341,15 @@ public class Juego {
         rend.dibujarMapa(graph, mapa);
         rend.dibujarJugadores(graph, p1, p2);
         rend.pnlTexto_mostrarDatos(ventana.pnlTexto, p1, p2);
-    }    
-
+    }   
+    //NEW - TESTING
+    public void dibujarMovJugador() throws IOException, InterruptedException{
+        Mapa mapa = this.gestorMapa.getMapa(nivel);
+        Graphics graph = ventana.pnlGrafico.getGraphics();
+        rend.dibujarMovJugador(graph,mapa,p1,p2);
+        rend.pnlTexto_mostrarDatos(ventana.pnlTexto, p1, p2);
+    }
+    /**/
     private boolean finJuego() {
         /*TOPE NIVEL: cantidad de mapas*/
         /*Si ha muerto o terminó todos los niveles*/
@@ -382,10 +389,14 @@ public class Juego {
             p1.setPosY(Integer.parseInt(eElement.getElementsByTagName("p1PosY").item(0).getTextContent()));
             p1.setPosX(Integer.parseInt(eElement.getElementsByTagName("p1PosX").item(0).getTextContent()));
             p1.setAccionEspecial(eElement.getElementsByTagName("p1AccEsp").item(0).getTextContent(), nivel);
+            p1.setOldX(p1.getPosX());
+            p1.setOldY(p1.getPosY());
             
             p2.setPosY(Integer.parseInt(eElement.getElementsByTagName("p2PosY").item(0).getTextContent()));
             p2.setPosX(Integer.parseInt(eElement.getElementsByTagName("p2PosX").item(0).getTextContent()));
             p2.setAccionEspecial(eElement.getElementsByTagName("p2AccEsp").item(0).getTextContent(), nivel);
+            p2.setOldX(p2.getPosX());
+            p2.setOldY(p2.getPosY());
             
             p1.setAccionDuo(eElement.getElementsByTagName("AccDuo").item(0).getTextContent(), nivel);
             p2.setAccionDuo(eElement.getElementsByTagName("AccDuo").item(0).getTextContent(), nivel);

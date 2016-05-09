@@ -91,6 +91,9 @@ public class InterpreteComandos {
                     Terreno terreno = (Terreno)celda.getObj();
                     int t = terreno.getTipo();
                     if (t != 2 && t >= 0 && t < 8){
+                        //NEW
+                        p1.setOldX(p1.getPosX());
+                        p1.setOldY(p1.getPosY());
                         p1.Mover(xFinal, yFinal);
                         p1.actualizarEstado(mapa);
                     }
@@ -121,6 +124,9 @@ public class InterpreteComandos {
                     Terreno terreno = (Terreno)celda.getObj();
                     int t = terreno.getTipo();
                     if (t != 1 && t >= 0 && t < 8){
+                        //NEW
+                        p2.setOldX(p2.getPosX());
+                        p2.setOldY(p2.getPosY());
                         p2.Mover(xFinal, yFinal);
                         p2.actualizarEstado(mapa);
                     }

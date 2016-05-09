@@ -20,13 +20,15 @@ public class Ventana extends JFrame implements KeyListener{
     public JPanel container;
     private static int index = 0;
     
-    public Ventana() throws IOException, InterruptedException{
+    public Ventana(GraphicsConfiguration gc) throws IOException, InterruptedException{
+        super(gc);
         initComponents();
         addKeyListener(this);
         setResizable(false);
         setVisible(true);
+        this.createBufferStrategy(2);
+        this.setIgnoreRepaint(true);
         juego = new Juego(this);
-        
         this.mostrarMenu();
     }
     
@@ -49,6 +51,8 @@ public class Ventana extends JFrame implements KeyListener{
             public void windowIconified(WindowEvent e){}
             public void windowOpened(WindowEvent e){}
         });
+        
+     
         
         /*INICIALIZAR PANEL GRAFICO*/
         pnlGrafico = new JPanel();
@@ -161,7 +165,8 @@ public class Ventana extends JFrame implements KeyListener{
             }
             //PINTAR PANTALLA - USAR JUEGO.RENDERIZADOR
             try {
-                juego.renderizar();
+                //juego.renderizar();
+                juego.dibujarMovJugador();
             } catch (IOException | InterruptedException ex){
                 System.out.println("Error renderizar");
             }
