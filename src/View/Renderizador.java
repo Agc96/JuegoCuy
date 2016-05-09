@@ -82,7 +82,6 @@ public class Renderizador {
     public void dibujarMovJugador(Graphics graphics,Mapa mapa,Personaje p1, Personaje p2) throws IOException{
         BufferedImage imgP1 = p1.getImagen();
         BufferedImage imgP2 = p2.getImagen();
-        System.out.println("P2: "+ p2.getOldX() + " " + p2.getOldY());
         BufferedImage oldPosP1 = mapa.getMapaAt(p1.getOldY(), p1.getOldX()).getObj().getImagen();
         BufferedImage oldPosP2 = mapa.getMapaAt(p2.getOldY(), p2.getOldX()).getObj().getImagen();
         graphics.drawImage(oldPosP1, p1.getOldX()*MAX_SIZE, p1.getOldY()*MAX_SIZE,MAX_SIZE,MAX_SIZE,null);
