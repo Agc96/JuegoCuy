@@ -1,24 +1,20 @@
 package View;
 
-import static View.Renderizador.MAX_SIZE;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Ventana extends JFrame implements KeyListener{
     
-    private Juego juego;
+    protected Juego juego;
     public JPanel pnlGrafico;
     public JPanel pnlTexto;
     public JPanel container;
     private static int index = 0;
+    
     
     public Ventana(GraphicsConfiguration gc) throws IOException, InterruptedException{
         super(gc);
@@ -163,13 +159,13 @@ public class Ventana extends JFrame implements KeyListener{
             } catch (IOException | InterruptedException ex){
                 System.out.println("Error captura movimiento");
             }
-            //PINTAR PANTALLA - USAR JUEGO.RENDERIZADOR
+            /*PINTAR PANTALLA - USAR JUEGO.RENDERIZADOR
             try {
                 //juego.renderizar();
                 juego.dibujarMovJugador();
             } catch (IOException | InterruptedException ex){
                 System.out.println("Error renderizar");
-            }
+            }*/
         } else if (Juego.eventFlag == Juego.CAPTURAR_ACCION_ESPECIAL ||
                    Juego.eventFlag == Juego.CAPTURAR_ACCION_DUO){
             try {

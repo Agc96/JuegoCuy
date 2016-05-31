@@ -47,6 +47,8 @@ public class Juego {
 
     public static int eventFlag = MENU_JUEGO; // INDICA EN QUE SECCION ESTOY
     
+    private Animacion animacion;
+    
     public Juego(Ventana ventana) {
         rend = new Renderizador();
         lector = new InterpreteComandos();
@@ -58,6 +60,8 @@ public class Juego {
         this.ventana = ventana;
         this.inicializarPersonajes(nivel);
         this.cargar_Dialogos();
+        this.animacion = new Animacion(ventana);
+        this.animacion.start();
     }
 
     public void capturarAccion(char key) throws IOException, InterruptedException {
@@ -66,7 +70,11 @@ public class Juego {
             System.out.println("Error mapa nulo");
             System.exit(0);
         }
-        lector.interpretaMovimiento(key, p1, p2, m, nivel);
+        
+        int resultado = lector.interpretaMovimiento(key, p1, p2, m, nivel, animacion);
+        animacion.iniciar(resultado);
+        
+        
     }
 
     public int caputarAccionEspecial(char key, int index) throws IOException, InterruptedException{

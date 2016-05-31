@@ -1,5 +1,6 @@
 package Controller;
 import Model.*;
+import View.Animacion;
 import java.util.List;
 
 /**
@@ -63,8 +64,8 @@ public class InterpreteComandos {
         
     }
     
-    public void interpretaMovimiento(char key, Personaje p1, Personaje p2,
-            Mapa mapa, int nivel){
+    public int interpretaMovimiento(char key, Personaje p1, Personaje p2,
+            Mapa mapa, int nivel, Animacion animacion){
         int difX = 0;
         int difY = 0;
         int personaje = 0;
@@ -79,9 +80,14 @@ public class InterpreteComandos {
         } else if (c == 'D'){
             difX = 1;   personaje = 1;
         }
+        
+        if (personaje == 1 && animacion.isRunning(personaje)){
+            return 0;
+        }
+        
         if (personaje == 1){
             //PARA QUE NO SE MUEVA CUANDO ESTA EN UN TRIGGER ACTIVO
-            if (p1.getEstado() == Personaje.TRIGGER_ENEMIGO) return;
+            if (p1.getEstado() == Personaje.TRIGGER_ENEMIGO) return 0;
             //MOVER AL PERSONAJE
             int xFinal = p1.getPosX() + difX;
             int yFinal = p1.getPosY() + difY;
@@ -96,11 +102,10 @@ public class InterpreteComandos {
                         p1.setOldY(p1.getPosY());
                         p1.Mover(xFinal, yFinal);
                         p1.actualizarEstado(mapa);
+                        return personaje;
                     }
-                    return;
                 }
             }
-            return;
         }
         
         if (c == 'I'){
@@ -111,10 +116,14 @@ public class InterpreteComandos {
             difY = 1;   personaje = 2;
         } else if (c == 'L'){
             difX = 1;   personaje = 2;
-        }
+        } 
+        
+        if (personaje == 2 && animacion.isRunning(personaje))
+            return 0;
+        
         if (personaje == 2){
             //PARA QUE NO SE MUEVA CUANDO ESTA EN UN TRIGGER ACTIVO
-            if (p2.getEstado() == Personaje.TRIGGER_ENEMIGO) return;
+            if (p2.getEstado() == Personaje.TRIGGER_ENEMIGO) return 0;
             //MOVER AL PERSONAJE
             int xFinal = p2.getPosX() + difX;
             int yFinal = p2.getPosY() + difY;
@@ -129,10 +138,11 @@ public class InterpreteComandos {
                         p2.setOldY(p2.getPosY());
                         p2.Mover(xFinal, yFinal);
                         p2.actualizarEstado(mapa);
+                        return personaje;
                     }
-                    return;
                 } 
             }
         }
+        return 0;
     }
 }
