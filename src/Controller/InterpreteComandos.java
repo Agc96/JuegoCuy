@@ -117,9 +117,10 @@ public class InterpreteComandos {
         } else if (c == 'L'){
             difX = 1;   personaje = 2;
         } 
-        
+         
         if (personaje == 2 && animacion.isRunning(personaje))
             return 0;
+        
         
         if (personaje == 2){
             //PARA QUE NO SE MUEVA CUANDO ESTA EN UN TRIGGER ACTIVO
